@@ -87,3 +87,18 @@ document.querySelectorAll(".svc-tab").forEach((tab) => {
     document.querySelectorAll(".svc-panel").forEach((p) => p.classList.toggle("active", p.dataset.panel === key));
   });
 });
+
+// quote forms post to our lead function, which emails the shop
+document.querySelectorAll("form.quote").forEach((form) => {
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form), btn = form.querySelector("button"), note = form.querySelector("small");
+    btn.disabled = true; btn.textContent = "Sending...";
+    const r = await fetch("https://fizfyydpzirrealezxlj.supabase.co/functions/v1/site-lead", {
+      method: "POST", headers: { "content-type": "application/json" },
+      body: JSON.stringify({ site: "fcbcs.com", name: fd.get("name"), phone: fd.get("phone"), property: fd.get("property"), details: fd.get("details"), website: fd.get("website"), page: location.pathname }),
+    }).catch(() => null);
+    if (r && r.ok) { btn.textContent = "Sent"; note.textContent = "Got it. We'll call you soon."; }
+    else { btn.disabled = false; btn.textContent = "Get a quote"; note.textContent = "That didn't go through. Call (817) 286-7069."; }
+  });
+});

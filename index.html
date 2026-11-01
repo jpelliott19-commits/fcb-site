@@ -234,12 +234,13 @@
         <li><b>Service area</b><span>DFW Metroplex and Greater Houston</span></li>
       </ul>
     </div>
-    <form class="quote" onsubmit="return false">
+    <form class="quote">
+      <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
       <h3>Get a quote</h3>
-      <label>Name<input type="text" placeholder="Your name" /></label>
-      <label>Phone<input type="tel" placeholder="(817) 000-0000" /></label>
-      <label>Property<select><option>Commercial</option><option>Residential</option><option>Municipal</option><option>Fleet or aviation</option></select></label>
-      <label>What needs cleaning?<textarea rows="3" placeholder="Concrete, roof, pavers, striping, fleet..."></textarea></label>
+      <label>Name<input type="text" name="name" placeholder="Your name" required /></label>
+      <label>Phone<input type="tel" name="phone" placeholder="(817) 000-0000" required /></label>
+      <label>Property<select name="property"><option>Commercial</option><option>Residential</option><option>Municipal</option><option>Fleet or aviation</option></select></label>
+      <label>What needs cleaning?<textarea name="details" rows="3" placeholder="Concrete, roof, pavers, striping, fleet..."></textarea></label>
       <button class="btn btn-cream" type="submit">Get a quote</button>
       <small>No pressure, no upsell.</small>
     </form>
@@ -257,6 +258,6 @@
   </div>
 </footer>
 
-<script src="script.js?v=18"></script>
+<script src="script.js?v=19"></script>
 </body>
 </html>

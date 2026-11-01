@@ -84,6 +84,7 @@ body.lp.white{background:#fff}
       </div>
 
       <form class="lp-form" id="quote">
+        <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
         <label class="sr">Name<input type="text" name="name" placeholder="Name" required /></label>
         <label class="sr">Phone<input type="tel" name="phone" placeholder="Phone" required /></label>
         <label class="sr">Company<input type="text" name="company" placeholder="Company" /></label>
@@ -112,12 +113,18 @@ body.lp.white{background:#fff}
     svc.classList.toggle("on", on.length > 0);
   });
 
-  // visual only: the form just confirms on the page
+  // the form posts to our lead function, which emails the shop
   const form = document.getElementById("quote");
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    form.classList.add("sent");
-    document.getElementById("note").textContent = "Got it. We'll be in touch soon.";
+    const fd = new FormData(form), btn = form.querySelector("button"), note = document.getElementById("note");
+    btn.disabled = true; btn.textContent = "Sending...";
+    const r = await fetch("https://fizfyydpzirrealezxlj.supabase.co/functions/v1/site-lead", {
+      method: "POST", headers: { "content-type": "application/json" },
+      body: JSON.stringify({ site: "fcbcs.com", name: fd.get("name"), phone: fd.get("phone"), address: fd.get("address"), services: fd.getAll("service"), details: fd.get("company") ? "Company: " + fd.get("company") : null, website: fd.get("website"), page: location.pathname }),
+    }).catch(() => null);
+    if (r && r.ok) { form.classList.add("sent"); btn.textContent = "Sent"; note.textContent = "Got it. We'll call you soon."; }
+    else { btn.disabled = false; btn.textContent = "Get a quote"; note.textContent = "That didn't go through. Call (817) 286-7069."; }
   });
 </script>
 </body>
