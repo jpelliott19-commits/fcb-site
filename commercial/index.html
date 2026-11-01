@@ -143,7 +143,7 @@ src="https://www.facebook.com/tr?id=4464781483772576&ev=PageView&noscript=1"
       method: "POST", headers: { "content-type": "application/json" },
       body: JSON.stringify({ site: "fcbcs.com", name: fd.get("name"), phone: fd.get("phone"), address: fd.get("address"), services: fd.getAll("service"), details: fd.get("company") ? "Company: " + fd.get("company") : null, website: fd.get("website"), page: location.pathname }),
     }).catch(() => null);
-    if (r && r.ok) { form.classList.add("sent"); btn.textContent = "Sent"; note.textContent = "Got it. We'll call you soon."; }
+    if (r && r.ok) { if (window.fbq) fbq("track", "Purchase", { currency: "USD", value: 1 }); form.classList.add("sent"); btn.textContent = "Sent"; note.textContent = "Got it. We'll call you soon."; }
     else { btn.disabled = false; btn.textContent = "Get a quote"; note.textContent = "That didn't go through. Call (817) 286-7069."; }
   });
 </script>

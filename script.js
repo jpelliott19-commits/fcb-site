@@ -98,7 +98,7 @@ document.querySelectorAll("form.quote").forEach((form) => {
       method: "POST", headers: { "content-type": "application/json" },
       body: JSON.stringify({ site: "fcbcs.com", name: fd.get("name"), phone: fd.get("phone"), property: fd.get("property"), details: fd.get("details"), website: fd.get("website"), page: location.pathname }),
     }).catch(() => null);
-    if (r && r.ok) { btn.textContent = "Sent"; note.textContent = "Got it. We'll call you soon."; }
+    if (r && r.ok) { if (window.fbq) fbq("track", "Purchase", { currency: "USD", value: 1 }); btn.textContent = "Sent"; note.textContent = "Got it. We'll call you soon."; }
     else { btn.disabled = false; btn.textContent = "Get a quote"; note.textContent = "That didn't go through. Call (817) 286-7069."; }
   });
 });
